@@ -4,6 +4,7 @@ import insta from "/Public/images/insta.svg"
 import linkedin from "/Public/images/linkedin.svg"
 import mail from "/Public/images/mail.svg"
 import github from "/Public/images/github.svg"
+import myphoto2 from "/Public/images/my_photo_2.jpeg"
 
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
     </div>
     <div id="rightpart" className="flex flex-col w-[700px] h-[700px]  m-auto justify-center items-center align-middle drop-shadow-custom1 ">
     <div className="w-full h-full">
-        <Image src='/images/my_photo_2.jpeg' width={700} height={700} className="rounded-[47%]" />
+        <Image src={myphoyo2} width={700} height={700} className="rounded-[47%]" />
     </div>
     <div id="media"  className="flex-row flex gap-4">
       <a href="https://instagram.com/rohit.kumar.2005/" target="blank">
