@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import cross from "/Public/images/cross.svg"
+import hamburger from "/Public/images/hamburger.svg"
+import myphoto from "/Public/images/myphoto.jpg"
 import { useState, useEffect } from "react";
 
 const geistSans = localFont({
@@ -30,12 +33,12 @@ const hamburgerhandle=() => {
       >
         <navbar  className="fixed w-full"> 
           <div className={`hamburger z-100 fixed top-5 tab:hidden right-3  w-10 h-10 overflow-hidden transition ease-linear duration-300  `}>
-            <Image src="/images/cross.svg" className={`${sidebar?'hidden':'block '}`} onClick={hamburgerhandle} width={40} height={40}/>
-            <Image src="/images/hamburger.svg" className={`${sidebar?'block':'hidden'}`} onClick={crosshandle} width={40} height={40}/>
+            <Image src={cross} className={`${sidebar?'hidden':'block '}`} onClick={hamburgerhandle} width={40} height={40}/>
+            <Image src={hamburger} className={`${sidebar?'block':'hidden'}`} onClick={crosshandle} width={40} height={40}/>
           </div>
           <div className="flex max-w-full z-1000 overflow-hidden flex-row justify-between px-10 py-5 ">
           <div className="rounded-full overflow-hidden">
-            <Image className="z-10" src="/images/myphoto.jpg"  width={50}
+            <Image className="z-10" src={myphoto}  width={50}
               height={50}
             ></Image></div>
 

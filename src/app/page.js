@@ -1,6 +1,9 @@
 "use client"
 import Image from "next/image";
 import insta from "/Public/images/insta.svg"
+import linkedin from "/Public/images/linkedin.svg"
+import mail from "/Public/images/mail.svg"
+import github from "/Public/images/github.svg"
 
 
 export default function Home() {
@@ -19,11 +22,11 @@ export default function Home() {
       <a href="https://instagram.com/rohit.kumar.2005/" target="blank">
       <Image id="insta" src={insta} width={40} height={40}  /></a>
       <a href="https://github.com/r120dhiman/">
-      <Image id="github" src='./images/github.svg' width={40} height={40} /></a>
+      <Image id="github" src={github} width={40} height={40} /></a>
       <a href="https://linkedin.com/in/rohit-kumar2005">
-      <Image id="linkedin" src='./images/linkedin.svg' width={40} height={40} /></a>
+      <Image id="linkedin" src={linkedin} width={40} height={40} /></a>
       <a href="mailto:r120dhiman+website@gmail.com">
-      <Image id="mail" src='./images/mail.svg' width={40} height={40} /></a>
+      <Image id="mail" src={mail} width={40} height={40} /></a>
     </div>
 </div>
 
