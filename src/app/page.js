@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import insta from "/Public/images/insta.svg"
 
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
     </div>
     <div id="media"  className="flex-row flex gap-4">
       <a href="https://instagram.com/rohit.kumar.2005/" target="blank">
-      <Image id="insta" src='./images/insta.svg' width={40} height={40}  /></a>
+      <Image id="insta" src={insta} width={40} height={40}  /></a>
       <a href="https://github.com/r120dhiman/">
       <Image id="github" src='./images/github.svg' width={40} height={40} /></a>
       <a href="https://linkedin.com/in/rohit-kumar2005">
