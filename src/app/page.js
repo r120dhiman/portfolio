@@ -16,13 +16,13 @@ export default function Home() {
     </div>
     <div id="media"  className="flex-row flex gap-4">
       <a href="https://instagram.com/rohit.kumar.2005/" target="blank">
-      <Image id="insta" src='images/insta.svg' width={40} height={40}  /></a>
+      <Image id="insta" src='./images/insta.svg' width={40} height={40}  /></a>
       <a href="https://github.com/r120dhiman/">
-      <Image id="github" src='images/github.svg' width={40} height={40} /></a>
+      <Image id="github" src='./images/github.svg' width={40} height={40} /></a>
       <a href="https://linkedin.com/in/rohit-kumar2005">
-      <Image id="linkedin" src='images/linkedin.svg' width={40} height={40} /></a>
+      <Image id="linkedin" src='./images/linkedin.svg' width={40} height={40} /></a>
       <a href="mailto:r120dhiman+website@gmail.com">
-      <Image id="mail" src='images/mail.svg' width={40} height={40} /></a>
+      <Image id="mail" src='./images/mail.svg' width={40} height={40} /></a>
     </div>
 </div>
 
