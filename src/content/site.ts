@@ -10,7 +10,16 @@ export const site = {
   education: {
     school: "Indian Institute of Technology (BHU) Varanasi",
     degree: "B.Tech, Chemical Engineering",
+    years: "2023 – 2027",
     year: "2027",
+    cpi: "8.93",
+  },
+  schooling: {
+    school: "Jawahar Navodaya Vidyalaya, Kurukshetra, Haryana",
+    results: [
+      { level: "Class XII", detail: "Mathematics & Computer Science", score: "94%" },
+      { level: "Class X", detail: "", score: "88.6%" },
+    ],
   },
   links: {
     github: "https://github.com/r120dhiman",

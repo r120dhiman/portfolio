@@ -33,7 +33,7 @@ export function RevealText({ children, as: Tag = "div", className, by = "lines",
             ease: "expo.out",
             stagger: by === "chars" ? 0.025 : by === "words" ? 0.04 : 0.09,
             delay,
-            scrollTrigger: trigger === "scroll" ? { trigger: ref.current, start: "top 88%", once: true } : undefined,
+            scrollTrigger: trigger === "scroll" ? { trigger: ref.current, start: "top 88%", toggleActions: "play none none none" } : undefined,
           });
         },
       });

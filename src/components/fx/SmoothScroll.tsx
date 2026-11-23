@@ -18,8 +18,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     const tick = (time: number) => l.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
-    setLenis(l);
+    // Publish on the next frame so consumers re-render outside the effect body.
+    const raf = requestAnimationFrame(() => setLenis(l));
     return () => {
+      cancelAnimationFrame(raf);
       gsap.ticker.remove(tick);
       l.destroy();
       setLenis(null);

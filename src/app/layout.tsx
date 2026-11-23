@@ -5,6 +5,7 @@ import { SmoothScroll } from "@/components/fx/SmoothScroll";
 import { Preloader } from "@/components/fx/Preloader";
 import { Cursor } from "@/components/fx/Cursor";
 import { Nav } from "@/components/layout/Nav";
+import { TechLayer } from "@/components/tech/TechLayer";
 import { Footer } from "@/components/layout/Footer";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Preloader />
           <Cursor />
           <Nav />
+          <TechLayer />
           <ViewTransition enter="page" exit="page" default="none">
             <main>{children}</main>
           </ViewTransition>

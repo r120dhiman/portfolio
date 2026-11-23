@@ -1,0 +1,77 @@
+% rkresume.sty — IIT (BHU)-style one-page resume, shared by all variants.
+% Build: npm run resume   (compiles every resume/*.tex with tectonic into public/resume/)
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rkresume}
+
+\RequirePackage[a4paper,top=8mm,bottom=7mm,left=11.2mm,right=11.2mm]{geometry}
+% ATS: OpenType font => real Unicode text in the PDF; no ligatures (fi/ffi stay plain letters).
+\RequirePackage{fontspec}
+\setmainfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic,Scale=0.95,Ligatures={NoCommon,NoRequired,TeX}]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic,Scale=0.95,Ligatures={NoCommon,NoRequired,TeX}]
+\renewcommand{\familydefault}{\sfdefault}
+\RequirePackage[dvipsnames,table]{xcolor}
+\RequirePackage{tabularx,array}
+\RequirePackage{enumitem}
+\RequirePackage[hidelinks,pdfauthor={Rohit Kumar},pdftitle={Rohit Kumar - Resume},pdfcreator={LaTeX}]{hyperref}
+\RequirePackage{microtype}
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+
+\pagestyle{empty}
+% ATS: never split words across lines (parsers read "Pydan-tic" as two broken words).
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \uchyph=0
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.0}
+
+\definecolor{bar}{HTML}{CFD8DC}    % section bars
+\definecolor{subbar}{HTML}{EEEEEE} % entry bars
+\definecolor{rule}{HTML}{607D8B}
+
+% Spacing knob: \renewcommand{\rkgap}{..} in a variant to fit one page.
+\newcommand{\rkgap}{2.2pt}
+\newcommand{\rkitemsep}{0pt}
+
+\newcommand{\rkname}[1]{%
+  \begin{center}\vspace*{-1mm}{\fontsize{22}{24}\selectfont\bfseries #1}\end{center}\vspace{-4.2mm}}
+
+% Grey full-width section bar with centred bold caps title.
+\newcommand{\rksection}[1]{%
+  \par\vspace{\rkgap plus 1fill}%
+  \noindent\colorbox{bar}{\parbox[c][4.6mm][c]{\dimexpr\linewidth-2\fboxsep}{\centering\bfseries\small\MakeUppercase{#1}}}%
+  \par\vspace{0.6mm}}
+
+% Light grey entry bar: bold title left, date right.
+\newcommand{\rkentry}[2]{%
+  \par\vspace{0.5mm plus 0.5fill}%
+  \noindent\colorbox{subbar}{\parbox[c][3.9mm][c]{\dimexpr\linewidth-2\fboxsep}{\small\textbf{#1}\hfill{\scriptsize #2}}}%
+  \par\vspace{0.2mm}}
+
+% Italic organisation line under an entry.
+\newcommand{\rkorg}[1]{{\small\itshape #1}\par}
+
+\newenvironment{rkitems}{%
+  \raggedright\begin{itemize}[leftmargin=4.2mm,label=\textbullet,itemsep=\rkitemsep plus 0.15fill,parsep=0pt,topsep=0.4mm plus 0.3fill,partopsep=0pt]\small}%
+  {\end{itemize}}
+
+% Academic table: rows of {degree}{institution}{score}{year}.
+\newcommand{\rkacadhead}{%
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Degree/Certificate}} & \multicolumn{1}{c|}{\textbf{Institution}} & \multicolumn{1}{c|}{\textbf{Percentage/CGPA}} & \multicolumn{1}{c|}{\textbf{Year}}\\
+  \hline}
+\newenvironment{rkacademic}{%
+  \small\renewcommand{\arraystretch}{1.02}%
+  \noindent\tabularx{\linewidth}{@{}>{\centering\arraybackslash}p{30mm}>{\centering\arraybackslash}X>{\centering\arraybackslash}p{30mm}>{\centering\arraybackslash}p{14mm}@{}}}%
+  {\endtabularx\par}
+
+% Contact line directly under the name (ATS parsers read contact details from the top).
+\newcommand{\rkcontact}[1]{\centerline{\small #1}\par\vspace{1.6mm}}
+
+% Thin frame around the body (from just under the name down to the footer), like the institute template.
+\newenvironment{rkbody}{%
+  \par\noindent\tikz[remember picture,overlay]\coordinate (rktop) at (0,1.4mm);\par\vspace{-\baselineskip}\vspace{1.2mm}}{%
+  \par\vspace{1.4mm plus 0.3fill}\noindent\tikz[remember picture,overlay]{%
+    \coordinate (rkbot) at (0,0);
+    \draw[rule!70,line width=0.5pt]
+      ($(current page.west |- rktop)+(10mm,0)$) rectangle ($(current page.east |- rkbot)+(-10mm,0)$);}%
+  \par}

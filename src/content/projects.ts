@@ -33,11 +33,12 @@ export const featured: Project[] = [
     oneLiner: "Realtime AI sales copilot: live coaching on calls, durable post-call agents, and a knowledge graph of every deal.",
     role: "Built the 5-service Python backend and the Google Meet Chrome extension",
     team: true,
-    period: "Jul – Nov 2026",
+    period: "Jul 2026 – Present",
     tags: ["AI", "Systems"],
     stack: ["Python", "FastAPI", "LangGraph", "Gemini Live", "Neo4j", "Redis Streams", "Postgres", "Docker", "Caddy", "Chrome MV3"],
     live: "https://wolferesearch.vercel.app",
     accent: "#FF5A1F",
+    image: "/shots/wolfe.webp",
     featured: true,
     metric: "5 services · sub-2s live coaching",
   },
@@ -52,6 +53,7 @@ export const featured: Project[] = [
     stack: ["Next.js 16", "React 19", "FastAPI", "LangChain", "OpenAI", "Grok", "Supabase", "Redis", "Razorpay", "PostHog"],
     live: "https://tripflow.live",
     accent: "#3DDC97",
+    image: "/shots/tripflow.webp",
     featured: true,
     metric: "250+ users · 2,000+ trips",
   },
@@ -64,21 +66,24 @@ export const featured: Project[] = [
     period: "Oct – Nov 2026",
     tags: ["AI", "Systems", "Shipped"],
     stack: ["React", "Vite", "KaTeX", "FastAPI", "Neon Postgres", "pytest", "Docker"],
+    live: "https://ninetynine.usewolfe.com",
+    image: "/shots/ninetynine.webp",
     accent: "#7C5CFF",
     featured: true,
-    metric: "24 papers · 1,830 questions",
+    metric: "38 users · 8 paying",
   },
   {
     slug: "spardha",
     name: "Spardha",
     oneLiner: "Registration and contingent-management platform for IIT (BHU)'s national sports festival.",
-    role: "#2 all-time contributor (109 of 548 commits) on the web team",
+    role: "Tech Coordinator → Tech Head → Senior Tech Advisor; #2 all-time contributor (109 of 548 commits)",
     team: true,
     period: "2024 – 2026",
     tags: ["Systems", "Shipped"],
     stack: ["React", "Django", "MySQL", "GSAP"],
     live: "https://www.spardha.org.in",
     accent: "#FFC53D",
+    image: "/shots/spardha.webp",
     featured: true,
     metric: "Multi-edition · open source",
   },
@@ -96,6 +101,7 @@ export const more: Project[] = [
     stack: ["Next.js", "Express", "Socket.IO", "Prisma", "Redis", "Docker"],
     live: "https://whispr.in",
     accent: "#FF7AB6",
+    image: "/shots/whispr.webp",
   },
   {
     slug: "connectiit",
@@ -119,6 +125,7 @@ export const more: Project[] = [
     stack: ["React", "GSAP", "Framer Motion", "Tailwind"],
     live: "https://upcon-25.vercel.app",
     accent: "#00C2D1",
+    image: "/shots/upcon.webp",
   },
   {
     slug: "checkmarks",
@@ -131,6 +138,7 @@ export const more: Project[] = [
     stack: ["React", "Express", "MongoDB", "Google OAuth"],
     live: "https://checkmarks.vercel.app",
     accent: "#B6F542",
+    image: "/shots/checkmarks.webp",
   },
   {
     slug: "outreachr",
@@ -166,6 +174,7 @@ export const more: Project[] = [
     stack: ["Next.js", "TypeScript", "Framer Motion"],
     live: "https://assignment-gamma-mocha.vercel.app",
     accent: "#D9C7A7",
+    image: "/shots/calendar.webp",
   },
 ];
 
@@ -198,47 +207,59 @@ export const clients = [
   },
 ] as const;
 
-export const experience = [
+export type ExperienceItem = {
+  org: string;
+  kind: "Internship" | "Leadership";
+  title: string;
+  period: string;
+  link?: string;
+  points: string[];
+};
+
+/** Internships and positions of responsibility. Wolfe / TripFlow live in Featured work. */
+export const experience: ExperienceItem[] = [
   {
-    org: "Wolfe AI",
-    title: "Backend & AI Engineer",
-    period: "Jul 2026 – Present",
+    org: "MMD Shopping",
+    kind: "Internship",
+    title: "Software Development Intern",
+    period: "Apr – Jul 2026",
     points: [
-      "Built five production services: live call coaching, post-call agents, research agent, knowledge graph and shared auth.",
-      "Shipped a Google Meet extension that coaches sales reps live during calls.",
+      "Developed and enhanced the AI-powered product recommendation engine using RAG and LLM calls.",
+      "Led the AI team to independently design, build and deliver AI features.",
+      "Architected the end-to-end user flow and backend logic for the coupon system; maintained production services.",
     ],
   },
   {
-    org: "TripFlow",
-    title: "Full-stack & AI Engineer",
-    period: "Jan 2026 – Oct 2026",
+    org: "Pamprazzi",
+    kind: "Internship",
+    title: "Backend Development Intern",
+    period: "Mar – May 2025",
+    link: "https://pamprazzi.com",
     points: [
-      "Built the AI trip-planning backend and web app used by 250+ users for 2,000+ trips.",
-      "Added LLM failover (OpenAI → Grok), conversation memory and search-cost reductions.",
-    ],
-  },
-  {
-    org: "MyMomDad",
-    title: "Software Engineer",
-    period: "Jun – Jul 2026",
-    points: [
-      "Shipped vendor dashboard features (review replies, certificates) and gift-card flows.",
-      "Fixed price filtering in the FastAPI product-recommendation service.",
+      "Built the admin dashboard for Pamprazzi's core platform (Node.js).",
+      "Updated the payment and GST tax services, and maintained the production codebase.",
     ],
   },
   {
     org: "Spardha, IIT (BHU)",
-    title: "Web Team",
-    period: "2024 – 2026",
-    points: ["#2 all-time contributor to the national sports festival's registration platform."],
+    kind: "Leadership",
+    title: "Senior Tech Advisor",
+    period: "2024 – Present",
+    link: "https://www.spardha.org.in",
+    points: [
+      "Tech Coordinator in 2nd year → Tech Head in 3rd year → Senior Tech Advisor in 4th year, for IIT (BHU)'s national sports festival.",
+      "As Tech Head of Spardha'25, led a 15+ member team running the fest platform and registrations.",
+      "Worked across nearly the entire legacy codebase of the organisation's open-source platform; #2 all-time contributor (109 of 548 commits).",
+    ],
   },
   {
-    org: "Freelance",
-    title: "Full-stack Developer",
-    period: "2025 – Present",
-    points: ["Inventory, billing and data tools for small businesses."],
+    org: "Social Projects Club, IIT (BHU)",
+    kind: "Leadership",
+    title: "Tech Head",
+    period: "2025 – 2026",
+    points: ["Guided junior students through product ideation and supported them through their project builds."],
   },
-] as const;
+];
 
 export const skills = [
   { group: "AI", items: ["LangGraph", "LangChain", "Gemini Live", "OpenAI", "Groq", "Evals & LLM judges", "Prompt versioning"] },

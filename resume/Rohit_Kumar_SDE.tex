@@ -1,0 +1,116 @@
+% Rohit Kumar — SDE-1 resume. One page. Build: npm run resume
+% Blocks between "%% optional: <priority> <name>" and "%% end optional" are added only if they still fit on one page.
+\documentclass[10pt]{article}
+\usepackage{rkresume}
+
+\begin{document}
+\rkname{ROHIT KUMAR}
+\rkcontact{\href{mailto:contact@rohitkumar.info}{contact@rohitkumar.info} \textbar\ \href{https://rohitkumar.info}{rohitkumar.info} \textbar\ \href{https://github.com/r120dhiman}{github.com/r120dhiman} \textbar\ \href{https://linkedin.com/in/rohit-kumar2005}{linkedin.com/in/rohit-kumar2005}}
+\begin{rkbody}
+
+\rksection{Education}
+\begin{rkacademic}
+\rkacadhead
+B-Tech & Chemical Engineering, IIT (BHU) Varanasi & 8.93 & 2027\\
+CBSE (XII) & Jawahar Navodaya Vidyalaya Niwarsi, Kurukshetra & 94.00 & 2022\\
+CBSE (X) & Jawahar Navodaya Vidyalaya Niwarsi, Kurukshetra & 88.60 & 2020\\
+\end{rkacademic}
+
+\rksection{Skills}
+\begin{rkitems}
+  \item \textbf{Languages:} C++, Python, TypeScript, JavaScript, Go, SQL
+  \item \textbf{Backend:} Node.js, Express, FastAPI, Go Fiber, REST APIs, WebSockets, SSE, Redis Streams, queues
+  \item \textbf{Data \& Infra:} PostgreSQL, MongoDB, Redis, Neo4j, Supabase, Docker, Caddy, GitHub Actions, Vercel
+  \item \textbf{Frontend \& Tools:} React.js, Next.js, Tailwind CSS, Git, Postman, pytest
+%% optional: 9 interests
+  \item \textbf{Area of Interest:} Software Development, Distributed Systems, Generative AI, Data Structures \& Algorithms
+%% end optional
+\end{rkitems}
+
+\rksection{Experience}
+\rkentry{Software Development Intern}{Apr 2026 -- Jul 2026}
+\rkorg{Software Development at MMD Shopping Private Limited}
+\begin{rkitems}
+  \item Developed and enhanced the \textbf{AI-powered product recommendation engine using RAG and LLM calls}.
+  \item Led the AI team to independently design, build and deliver scalable AI solutions.
+  \item Architected the end-to-end user flow and implemented backend logic for the \textbf{coupon system}.
+%% optional: 1 mmd-maintenance
+  \item Maintained production services, resolved bugs and supported core web development tasks.
+%% end optional
+\end{rkitems}
+\rkentry{Backend Development Intern}{Mar 2025 -- May 2025}
+\rkorg{Backend Development at Pamprazzi (Pampering Patch Lifestyle Pvt. Ltd.)}
+\begin{rkitems}
+  \item Built the \textbf{admin dashboard} for Pamprazzi's core platform (Node.js).
+  \item Updated the \textbf{payment and GST tax services}; maintained and fixed the production codebase.
+\end{rkitems}
+
+\rksection{Projects}
+\rkentry{Wolfe AI \textbar\ Realtime Sales Copilot Backend}{\href{https://rohitkumar.info/work/wolfe}{rohitkumar.info/work/wolfe}}
+\begin{rkitems}
+  \item Built \textbf{5 production FastAPI services} as sole backend author: live coaching, post-call agent, research, knowledge graph, auth.
+  \item Made agent runs \textbf{crash-safe}: per-step Postgres checkpoints, atomic Redis queue claims, heartbeat sweeper resuming dead runs.
+  \item Built an \textbf{idempotent Redis Streams consumer} into Neo4j (consumer groups, XAUTOCLAIM); Ed25519 JWT via JWKS; Docker + Caddy.
+\end{rkitems}
+\rkentry{TripFlow \textbar\ AI-Native Travel Orchestration Platform}{\href{https://tripflow.live}{tripflow.live}}
+\begin{rkitems}
+  \item Built a \textbf{LangGraph agentic workflow} turning natural language into day-wise itineraries with live transport, hotel and weather data.
+  \item Shipped Next.js frontend and FastAPI backend with Razorpay payments and OpenAI-to-Grok failover; scaled to \textbf{250+ users} and \textbf{2,000+ trips planned}.
+\end{rkitems}
+\rkentry{Ninetynine \textbar\ CAT Mock Platform (solo, live, paid)}{\href{https://ninetynine.usewolfe.com}{ninetynine.usewolfe.com}}
+\begin{rkitems}
+  \item Scraper-to-PostgreSQL data pipeline for \textbf{1,830 questions}; FastAPI with server-owned scoring and CSP; pytest + node:test.
+  \item Launched with one-time payments: \textbf{38 organic users, 8 paying} so far.
+\end{rkitems}
+\rkentry{CheckMarks \textbar\ JEE Main Score Calculator}{\href{https://checkmarks.vercel.app}{checkmarks.vercel.app}}
+\begin{rkitems}
+  \item JEE Main marks from an \textbf{uploaded response sheet} (PDF parsing vs. per-shift keys); \textbf{Razorpay} paid mentorship, JWT cookie auth.
+\end{rkitems}
+%% optional: 4 whispr
+\rkentry{Whispr \textbar\ Conversation-First Social Platform}{\href{https://whispr.in}{whispr.in}}
+\begin{rkitems}
+  \item Took the platform to production: \textbf{Docker, Caddy and GitHub Actions CI/CD}, test-gated PRs and an admin stats dashboard.
+\end{rkitems}
+%% end optional
+%% optional: 6 connectiit
+\rkentry{ConnectIIT \textbar\ Network for IIT Students}{2025 -- 2026}
+\begin{rkitems}
+  \item Built \textbf{Go microservices} (Fiber, GORM, Kafka, PostgreSQL) plus an Expo React Native app for a student network.
+\end{rkitems}
+%% end optional
+
+\rksection{Positions of Responsibility}
+\rkentry{Senior Tech Advisor \textbar\ Spardha, IIT (BHU)}{2024 -- Present}
+\begin{rkitems}
+  \item Tech Coordinator (2nd yr), Tech Head of Spardha'25 (3rd yr) and Senior Tech Advisor (4th yr); led a \textbf{15+ member team} running the fest platform and registrations.
+  \item Worked across nearly the \textbf{entire legacy codebase} of the fest's open-source platform; \#2 all-time contributor (109 of 548 commits).
+\end{rkitems}
+\rkentry{Tech Head \textbar\ Social Projects Club, IIT (BHU)}{2025 -- 2026}
+\begin{rkitems}
+  \item Guided junior students through \textbf{product ideation} and supported them through their project builds.
+\end{rkitems}
+%% optional: 2 mentor
+\rkentry{Academic Mentor}{Aug 2024 -- Nov 2024}
+\begin{rkitems}
+  \item Mentored first-year students in \textbf{CHO103 (Process Calculation)} and \textbf{ME103 (Engineering Thermodynamics)}; ran remedial classes.
+\end{rkitems}
+%% end optional
+%% optional: 3 kashiyatra
+\rkentry{Tech-Coordinator \textbar\ Kashiyatra'25}{Nov 2024 -- Apr 2025}
+\begin{rkitems}
+  \item Developed dynamic website pages for Kashiyatra'25, the annual fest of IIT (BHU).
+\end{rkitems}
+%% end optional
+
+\rksection{Achievements}
+\begin{rkitems}
+  \item Secured \textbf{2nd place nationally and 1st within IIT (BHU)} in DebugIT'25, a software development event by COPS IIT (BHU).
+  \item Shortlisted among top campus startups at \textbf{E-Summit '26} (E-Cell IIT BHU) to exhibit and pitch TripFlow to industry delegates.
+  \item Solved \textbf{500+ DSA problems} on LeetCode and GeeksforGeeks.
+%% optional: 5 bootcamp
+  \item Secured 2nd place in Bootcamp'24 organised by Social Projects Club, IIT (BHU).
+%% end optional
+\end{rkitems}
+
+\end{rkbody}
+\end{document}

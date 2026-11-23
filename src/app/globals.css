@@ -43,6 +43,7 @@ body {
   color: var(--accent-ink);
 }
 
+@layer components {
 /* ---------- Type scale ---------- */
 .t-display {
   font-size: clamp(3.25rem, 13vw, 13rem);
@@ -78,6 +79,7 @@ body {
 
 .gutter {
   padding-inline: var(--gutter);
+}
 }
 
 /* ---------- Lenis ---------- */
@@ -138,4 +140,49 @@ html.lenis body {
     transition-duration: 0.001ms !important;
   }
   .grain { display: none; }
+}
+
+/* ---------- Tech layer ---------- */
+/* Heading scanline (src/components/tech/HeadingScan.tsx): a fixed-overlay box that
+   tracks the heading's rect; the beam travels top to bottom with a faint trail. */
+.tech-scan {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.tech-scan__beam {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent) 12%, var(--accent) 70%, transparent);
+  opacity: 0.7;
+  will-change: transform;
+}
+.tech-scan__beam::before {
+  /* faint trail above the beam */
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, transparent, rgb(236 235 230 / 0.045));
+}
+/* Nav wordmark: brief RGB-split on hover (src/components/layout/Nav.tsx). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tech-glitch:hover,
+  .tech-glitch:focus-visible {
+    animation: tech-glitch 450ms steps(1, end) 1;
+  }
+}
+@keyframes tech-glitch {
+  0% { text-shadow: 2px 0 rgb(255 40 80 / 0.75), -2px 0 rgb(0 210 255 / 0.75); }
+  20% { text-shadow: -2px 1px rgb(255 40 80 / 0.75), 2px -1px rgb(0 210 255 / 0.75); }
+  40% { text-shadow: 1px 0 rgb(255 40 80 / 0.6), -1px 0 rgb(0 210 255 / 0.6); }
+  60% { text-shadow: -1px -1px rgb(255 40 80 / 0.5), 1px 1px rgb(0 210 255 / 0.5); }
+  80% { text-shadow: 0.5px 0 rgb(255 40 80 / 0.4), -0.5px 0 rgb(0 210 255 / 0.4); }
+  100% { text-shadow: none; }
 }

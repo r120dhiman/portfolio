@@ -1,0 +1,98 @@
+% Rohit Kumar — Frontier / AI Engineer resume. One page. Build: npm run resume
+% Blocks between "%% optional: <priority> <name>" and "%% end optional" are added only if they still fit on one page.
+\documentclass[10pt]{article}
+\usepackage{rkresume}
+
+\begin{document}
+\rkname{ROHIT KUMAR}
+\rkcontact{\href{mailto:contact@rohitkumar.info}{contact@rohitkumar.info} \textbar\ \href{https://rohitkumar.info}{rohitkumar.info} \textbar\ \href{https://github.com/r120dhiman}{github.com/r120dhiman} \textbar\ \href{https://linkedin.com/in/rohit-kumar2005}{linkedin.com/in/rohit-kumar2005}}
+\begin{rkbody}
+
+\rksection{Education}
+\begin{rkacademic}
+\rkacadhead
+B-Tech & Chemical Engineering, IIT (BHU) Varanasi & 8.93 & 2027\\
+\end{rkacademic}
+{\small\renewcommand{\arraystretch}{1.02}%
+\noindent\begin{tabularx}{\linewidth}{@{}*{8}{>{\centering\arraybackslash}X}@{}}
+\textbf{Sem I} & \textbf{Sem II} & \textbf{Sem III} & \textbf{Sem IV} & \textbf{Sem V} & \textbf{Sem VI} & \textbf{Sem VII} & \textbf{Sem VIII}\\
+8.73 & 9.16 & 9.26 & 9.23 & 9.30 & 7.92 & -- & --\\
+\end{tabularx}\par}
+\begin{rkacademic}
+CBSE (XII) & Jawahar Navodaya Vidyalaya Niwarsi, Kurukshetra & 94.00 & 2022\\
+CBSE (X) & Jawahar Navodaya Vidyalaya Niwarsi, Kurukshetra & 88.60 & 2020\\
+\end{rkacademic}
+
+\rksection{Skills}
+\begin{rkitems}
+  \item \textbf{Languages:} Python, TypeScript, JavaScript, Go, C++, SQL
+  \item \textbf{Agentic \& AI Systems:} LangGraph, LangChain, Model Context Protocol (MCP), Gemini Live, Tool-Calling / Structured Outputs (Pydantic/Zod), Prompt Caching \& Context Pruning, Evals \& LLM judges
+  \item \textbf{Backend \& Infrastructure:} FastAPI, Node.js, Redis, PostgreSQL, Neo4j, MongoDB, Supabase, Docker, REST APIs, WebSockets
+  \item \textbf{Frontend \& Platforms:} React.js, Next.js, Electron, Tailwind CSS, Git, Postman
+\end{rkitems}
+
+\rksection{Experience}
+\rkentry{Software Development Intern}{Apr 2026 -- Jul 2026}
+\rkorg{Software Development at MMD Shopping Private Limited}
+\begin{rkitems}
+  \item Developed and enhanced the \textbf{AI-powered product recommendation engine using RAG and LLM calls}.
+  \item Led the AI team to independently design, build and deliver scalable AI solutions.
+  \item Architected the end-to-end user flow and implemented backend logic for the \textbf{coupon system}.
+%% optional: 5 mmd-maintenance
+  \item Maintained production services, resolved bugs and supported core web development tasks.
+%% end optional
+\end{rkitems}
+\rkentry{Backend Development Intern}{Mar 2025 -- May 2025}
+\rkorg{Backend Development at Pamprazzi (Pampering Patch Lifestyle Pvt. Ltd.)}
+\begin{rkitems}
+  \item Built the \textbf{admin dashboard} and updated the \textbf{payment and GST tax services} (Node.js); maintained the production codebase.
+\end{rkitems}
+
+\rksection{Projects}
+\rkentry{Autonomous Travel Orchestration Engine \textbar\ TripFlow}{\href{https://tripflow.live}{tripflow.live}}
+\begin{rkitems}
+  \item Architected a \textbf{stateful LangGraph agentic workflow} compiling free-form natural-language requests into deterministic multi-day itineraries.
+  \item Orchestrated \textbf{parallel tool-calling} across live transit, hospitality and geospatial APIs, with context pruning to cut latency and token overhead; OpenAI-to-Grok failover.
+  \item Engineered constraint-satisfaction layers enforcing budget and schedule bounds, serving \textbf{2,000+ trips for 250+ users}.
+\end{rkitems}
+\rkentry{Realtime Sales Copilot \& Deep Research Engine \textbar\ Wolfe AI}{\href{https://rohitkumar.info/work/wolfe}{rohitkumar.info/work/wolfe}}
+\begin{rkitems}
+  \item Built a \textbf{live coaching agent} on persistent Gemini Live sessions over dual-priority WebSockets, with Gemini, Groq and OpenAI failover and a sub-2s target.
+  \item Architected a \textbf{LangGraph multi-agent research pipeline} with self-correcting fallback loops for missing account and LinkedIn data, cutting pre-meeting research time by \textbf{80\%}.
+  \item Built an \textbf{eval harness} (scripted calls, hard checks, LLM judge, v1-vs-v2 prompt reports) and durable LangGraph runs with Postgres checkpoints and human-in-the-loop.
+\end{rkitems}
+\rkentry{Ninetynine \textbar\ AI-Personalised CAT Mock Platform (solo, live)}{\href{https://ninetynine.usewolfe.com}{ninetynine.usewolfe.com}}
+\begin{rkitems}
+  \item Built LLM judgments over \textbf{1,830 CAT questions} (topic tags, mistake causes, skip verdicts) that drive \textbf{unlimited mocks generated from each user's weak topics}.
+%% optional: 1 ninetynine-traction
+  \item Launched as a paid product: \textbf{38 organic users, 8 paying} so far.
+%% end optional
+\end{rkitems}
+
+\rksection{Positions of Responsibility}
+\rkentry{Senior Tech Advisor (prev. Tech Head, Spardha'25) \textbar\ Spardha, IIT (BHU)}{2024 -- Present}
+\begin{rkitems}
+  \item Led a \textbf{15+ member team} to architect and maintain the fest platform and registrations, working across nearly its entire legacy codebase.
+\end{rkitems}
+\rkentry{Tech Head \textbar\ Social Projects Club, IIT (BHU)}{2025 -- 2026}
+\begin{rkitems}
+  \item Guided junior students through \textbf{product ideation} and supported them through their project builds.
+\end{rkitems}
+%% optional: 2 mentor
+\rkentry{Academic Mentor}{Aug 2024 -- Nov 2024}
+\begin{rkitems}
+  \item Mentored first-year students in \textbf{CHO103 (Process Calculation)} and \textbf{ME103 (Engineering Thermodynamics)}; ran remedial classes.
+\end{rkitems}
+%% end optional
+
+\rksection{Achievements}
+\begin{rkitems}
+  \item Shortlisted among top campus startups at \textbf{E-Summit '26} (E-Cell IIT BHU) to exhibit and pitch TripFlow to industry delegates.
+  \item \textbf{2nd nationally, 1st in IIT (BHU)} in DebugIT'25 (COPS); solved \textbf{500+ DSA problems} on LeetCode and GeeksforGeeks.
+%% optional: 3 bootcamp
+  \item Secured 2nd place in Bootcamp'24 organised by Social Projects Club, IIT (BHU).
+%% end optional
+\end{rkitems}
+
+\end{rkbody}
+\end{document}
