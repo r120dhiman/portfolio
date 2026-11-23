@@ -31,12 +31,12 @@ export default function WorkIndex() {
                   </div>
                 </div>
               </ViewTransition>
-              <div className="mt-5 flex items-baseline justify-between gap-4">
+              <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h2 className="text-[clamp(1.6rem,3vw,2.6rem)] font-medium tracking-[-0.03em]">
                   <span className="mr-3 font-mono text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
                   {p.name}
                 </h2>
-                <span className="t-label shrink-0">{p.team ? "Team" : "Solo"} · {p.period}</span>
+                <span className="t-label">{p.team ? "Team" : "Solo"} · {p.period}</span>
               </div>
               <p className="mt-2 max-w-[52ch] leading-relaxed text-muted">{p.oneLiner}</p>
             </Link>

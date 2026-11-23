@@ -125,7 +125,7 @@ export function Hero() {
       ref={root}
       id="top"
       aria-label="Introduction"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden portrait:min-h-[min(100svh,56rem)]"
     >
       <ShaderField className="absolute inset-0 -z-10" />
       {/* Soft floor so the next section blends in. */}
@@ -152,7 +152,7 @@ export function Hero() {
           <h1
             data-name
             aria-label={site.name}
-            className="font-medium text-[clamp(4.25rem,18.5vw,19rem)] leading-[0.82] tracking-[-0.055em] text-fg select-none"
+            className="font-medium text-[clamp(3.5rem,min(18.5vw,32svh),19rem)] leading-[0.82] tracking-[-0.055em] text-fg select-none"
           >
             <span data-name-line aria-hidden className="block whitespace-nowrap will-change-transform">
               Rohit
@@ -226,7 +226,7 @@ export function Hero() {
         href="#work"
         data-fade
         aria-label="Scroll to work"
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-3"
+        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-3 [@media(max-height:560px)]:hidden"
       >
         <span className="t-label">Scroll</span>
         <span className="relative h-px w-12 overflow-hidden bg-line">

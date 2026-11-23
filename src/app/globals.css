@@ -78,7 +78,8 @@ body {
 }
 
 .gutter {
-  padding-inline: var(--gutter);
+  /* Side gutter, and on very wide screens (>1760px content) centre the content instead of stretching it. */
+  padding-inline: max(var(--gutter), calc((100% - 1760px) / 2));
 }
 }
 
