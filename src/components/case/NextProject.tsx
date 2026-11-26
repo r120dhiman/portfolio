@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { ProjectCover } from "@/components/fx/ProjectCover";
 import type { Project } from "@/content/projects";
 
@@ -15,7 +15,8 @@ export function NextProject({ project }: { project: Project }) {
     () => {
       const el = ref.current;
       const card = cardRef.current;
-      if (!el || !card || window.matchMedia("(hover: none)").matches) return;
+      if (!el || !card || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+      if (prefersReducedMotion()) return;
       gsap.set(card, { scale: 0.4, opacity: 0 });
       const xTo = gsap.quickTo(card, "x", { duration: 0.7, ease: "power3.out" });
       const yTo = gsap.quickTo(card, "y", { duration: 0.7, ease: "power3.out" });

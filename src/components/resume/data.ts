@@ -65,7 +65,11 @@ export const experienceEntries: Record<string, ResumeEntry> = {
     period: mmdE.period,
     bullets: {
       sde: [...mmdE.points],
-      ai: [...mmdE.points].reverse(),
+      ai: [
+        "Developed and enhanced the AI-powered product recommendation engine using RAG and LLM calls.",
+        "Led the AI team end to end: designed, built and delivered the company's AI features.",
+        "Maintained the production services the recommendation and coupon flows ran on.",
+      ],
       fde: [...mmdE.points],
     },
   },

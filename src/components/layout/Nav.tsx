@@ -12,7 +12,7 @@ import { ScrambleText } from "@/components/tech/ScrambleText";
 import { nav, site } from "@/content/site";
 
 const focusRing =
-  "rounded-sm outline-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current";
+  "rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current";
 
 export function Nav() {
   const pathname = usePathname();
@@ -85,12 +85,14 @@ export function Nav() {
     const reduced = prefersReducedMotion();
     if (open) {
       lenis?.stop();
+      document.documentElement.style.overflow = "clip";
       if (headerRef.current) gsap.set(headerRef.current, { yPercent: 0 });
       if (reduced) tl.progress(1).pause();
       else tl.timeScale(1).play();
       firstLinkRef.current?.focus({ preventScroll: true });
     } else {
       lenis?.start();
+      document.documentElement.style.removeProperty("overflow");
       if (tl.progress() === 0) return;
       if (reduced) {
         tl.progress(0).pause();
@@ -99,13 +101,31 @@ export function Nav() {
     }
   }, [open, lenis]);
 
-  // Escape closes; leaving mobile breakpoint closes.
+  // Escape closes; leaving mobile breakpoint closes; Tab is trapped inside the overlay.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
         menuBtnRef.current?.focus();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const root = overlayRef.current;
+      if (!root) return;
+      const focusables = Array.from(
+        root.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      ).filter((el) => el.offsetParent !== null);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const activeEl = document.activeElement;
+      if (e.shiftKey && (activeEl === first || !root.contains(activeEl))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
     const mq = window.matchMedia("(min-width: 768px)");
@@ -138,11 +158,14 @@ export function Nav() {
       <a
         href="#main"
         onClick={(e) => {
-          const main = document.querySelector("main");
+          const main = document.getElementById("main");
           if (!main) return;
           e.preventDefault();
+          // Focus it without leaving tabindex behind, so <main> never joins the tab order.
           main.setAttribute("tabindex", "-1");
-          main.focus();
+          main.focus({ preventScroll: true });
+          main.addEventListener("blur", () => main.removeAttribute("tabindex"), { once: true });
+          main.scrollIntoView();
         }}
         className="fixed left-4 top-4 z-[80] -translate-y-24 bg-fg px-3 py-2 font-mono text-xs uppercase tracking-wider text-bg focus:translate-y-0"
       >
@@ -151,7 +174,7 @@ export function Nav() {
 
       <header
         ref={headerRef}
-        className="gutter pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference will-change-transform"
+        className="gutter pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference will-change-transform [view-transition-name:site-header]"
       >
         <div className="flex items-center justify-between gap-6 py-5 md:grid md:grid-cols-[1fr_auto_1fr]">
           <Link

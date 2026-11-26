@@ -18,10 +18,18 @@ export type Project = {
   tags: RoleTag[];
   stack: string[];
   live?: string;
+  /**
+   * Public source. Only set this where the repo is public AND presentable — a repo with a
+   * template README is worse than no link. UPCON25 is public but has no README yet, so it
+   * is deliberately omitted until one exists.
+   */
+  repo?: string;
   /** Hex accent used for generated covers / hover reveals. */
   accent: string;
   /** Path under /public, e.g. /shots/tripflow.webp. Optional until screenshots exist. */
   image?: string;
+  /** Describes what is actually in the screenshot. Falls back to name + one-liner. */
+  imageAlt?: string;
   featured?: boolean;
   metric?: string;
 };
@@ -70,7 +78,7 @@ export const featured: Project[] = [
     image: "/shots/ninetynine.webp",
     accent: "#7C5CFF",
     featured: true,
-    metric: "38 users · 8 paying",
+    metric: "21% paid conversion · 38 users",
   },
   {
     slug: "spardha",
@@ -82,10 +90,11 @@ export const featured: Project[] = [
     tags: ["Systems", "Shipped"],
     stack: ["React", "Django", "MySQL", "GSAP"],
     live: "https://www.spardha.org.in",
+    repo: "https://github.com/IIT-BHU-SPORTS-FEST/spardha-24",
     accent: "#FFC53D",
     image: "/shots/spardha.webp",
     featured: true,
-    metric: "Multi-edition · open source",
+    metric: "#2 contributor · 109 of 548 commits",
   },
 ];
 
@@ -173,6 +182,7 @@ export const more: Project[] = [
     tags: ["Shipped"],
     stack: ["Next.js", "TypeScript", "Framer Motion"],
     live: "https://assignment-gamma-mocha.vercel.app",
+    repo: "https://github.com/r120dhiman/assignment",
     accent: "#D9C7A7",
     image: "/shots/calendar.webp",
   },

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import { Resume, ResumeFromParams } from "@/components/resume/Resume";
 import { site } from "@/content/site";
 
@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 
 export default function ResumePage() {
   return (
-    <section className="resume-page gutter mx-auto max-w-[1200px] pb-24 pt-32 md:pt-40">
+    <ViewTransition enter="page" exit="page" default="none">
+      <section className="resume-page gutter mx-auto max-w-[1200px] pb-24 pt-32 md:pt-40">
       <Suspense fallback={<Resume initial="sde" />}>
         <ResumeFromParams />
       </Suspense>
-    </section>
+      </section>
+    </ViewTransition>
   );
 }

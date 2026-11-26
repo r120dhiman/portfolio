@@ -11,6 +11,23 @@ export function CaseHero({ project, study }: { project: Project; study: CaseStud
     { label: "Team", value: study.team },
     { label: "Period", value: project.period },
     { label: "Stack", value: project.stack.join(" · ") },
+    ...(project.repo
+      ? [
+          {
+            label: "Source",
+            value: (
+              <a
+                href={project.repo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-sm underline decoration-accent decoration-1 underline-offset-4 outline-none transition-colors hover:text-accent focus-visible:text-accent"
+              >
+                {project.repo.replace(/^https?:\/\/(www\.)?github\.com\//, "")} <span aria-hidden>↗</span>
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       label: "Live",
       value: project.live ? (
@@ -31,7 +48,10 @@ export function CaseHero({ project, study }: { project: Project; study: CaseStud
   return (
     <header className="gutter pt-32 md:pt-40">
       <div className="flex flex-wrap items-center gap-3">
-        <Link href="/#work" className="t-label transition-colors hover:text-fg">
+        <Link
+          href="/work"
+          className="t-label rounded-sm transition-colors hover:text-fg focus-visible:text-fg focus-visible:underline focus-visible:underline-offset-4"
+        >
           ← All work
         </Link>
         <span className="t-label">/</span>

@@ -9,6 +9,7 @@ import { prefersReducedMotion } from "@/lib/gsap";
 const LABELS: Record<string, string> = {
   top: "Intro",
   work: "Work",
+  lab: "Lab",
   experience: "Experience",
   projects: "Projects",
   skills: "Toolkit",

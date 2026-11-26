@@ -36,7 +36,7 @@ export function Experience() {
 
       gsap.utils.toArray<HTMLElement>("[data-row]", root).forEach((row) => {
         const dot = row.querySelector<HTMLElement>("[data-dot]");
-        if (dot) {
+        if (dot && !reduced) {
           gsap.to(dot, {
             backgroundColor: "#ff5a1f",
             borderColor: "#ff5a1f",

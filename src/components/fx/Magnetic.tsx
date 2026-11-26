@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 
 /** Wraps a single interactive element and pulls it toward the cursor. */
 export function Magnetic({ children, strength = 0.35 }: { children: React.ReactElement; strength?: number }) {
@@ -10,7 +10,8 @@ export function Magnetic({ children, strength = 0.35 }: { children: React.ReactE
   useGSAP(
     () => {
       const el = ref.current;
-      if (!el || window.matchMedia("(hover: none)").matches) return;
+      if (!el || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+      if (prefersReducedMotion()) return;
       const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "elastic.out(1, 0.4)" });
       const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "elastic.out(1, 0.4)" });
       const move = (e: PointerEvent) => {

@@ -30,7 +30,7 @@ export const site = {
   proof: [
     { value: 2000, suffix: "+", label: "trips planned on TripFlow" },
     { value: 250, suffix: "+", label: "TripFlow users" },
-    { value: 1100, suffix: "+", label: "GitHub contributions in 2026" },
+    { value: 1100, suffix: "+", label: "GitHub contributions in 2026, incl. private" },
     { value: 5, suffix: "", label: "AI services built for Wolfe, solo" },
   ],
 } as const;
@@ -38,6 +38,7 @@ export const site = {
 export const nav = [
   { label: "Work", href: "/#work" },
   { label: "Experience", href: "/#experience" },
+  { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/#contact" },
 ] as const;

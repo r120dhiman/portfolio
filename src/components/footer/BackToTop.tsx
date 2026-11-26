@@ -48,7 +48,7 @@ export function BackToTop() {
         onClick={toTop}
         data-cursor-label="Top"
         aria-label="Back to top"
-        className="group relative grid h-24 w-24 place-items-center rounded-full text-fg outline-none md:h-28 md:w-28"
+        className="group relative grid h-24 w-24 place-items-center rounded-full text-fg  md:h-28 md:w-28"
       >
         <svg viewBox="0 0 100 100" aria-hidden className="absolute inset-0 h-full w-full -rotate-90">
           <circle cx="50" cy="50" r={R} fill="none" stroke="var(--line)" strokeWidth="1" />

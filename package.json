@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "resume": "python3 resume/build.py"
+    "resume": "python3 resume/build.py",
+    "test": "node --test tests/"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

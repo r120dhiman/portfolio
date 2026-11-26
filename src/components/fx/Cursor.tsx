@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 /**
  * Custom cursor: a dot + lagging ring (mix-blend-mode: difference) and an
@@ -33,6 +33,9 @@ export function Cursor() {
 
   useEffect(() => {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    // Also bail under reduced motion: this hides the system cursor, so a user who relies on an
+    // enlarged or high-contrast cursor must keep theirs.
+    if (prefersReducedMotion()) return;
     const w = wrap.current!;
     const bw = bubbleWrap.current!;
     const layers = [w, bw];

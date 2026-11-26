@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { RevealText } from "@/components/fx/RevealText";
 import { FeaturedWheel } from "@/components/work/FeaturedWheel";
 import { FeaturedStack } from "@/components/work/FeaturedStack";
@@ -21,9 +22,21 @@ export function FeaturedWork() {
             Products I&apos;ve <span className="t-serif text-accent">shipped</span>, end to end.
           </RevealText>
         </div>
-        <p className="max-w-[36ch] text-sm leading-relaxed text-muted md:text-right">
-          Agent backends, realtime LLM pipelines and the product around them.
-        </p>
+        <div className="md:text-right">
+          <p className="max-w-[36ch] text-sm leading-relaxed text-muted">
+            Agent backends, realtime LLM pipelines and the product around them.
+          </p>
+          <Link
+            href="/work"
+            data-cursor-label="All work"
+            className="group mt-5 inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-fg outline-none transition-colors hover:text-accent focus-visible:text-accent focus-visible:underline focus-visible:underline-offset-4"
+          >
+            All case studies
+            <span aria-hidden className="transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
       </header>
 
       {cinematic ? <FeaturedWheel /> : <FeaturedStack />}

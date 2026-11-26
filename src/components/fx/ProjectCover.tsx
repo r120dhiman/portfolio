@@ -1,13 +1,39 @@
+import Image from "next/image";
 import type { Project } from "@/content/projects";
+
+/** Every screenshot in /public/shots is exported at this size. */
+const SHOT_W = 1600;
+const SHOT_H = 1000;
+
+type Props = {
+  project: Project;
+  className?: string;
+  /**
+   * Responsive width hint. Defaults to full-viewport; pass the real layout width wherever
+   * the cover is smaller (a 2-up grid, a preview thumbnail) so Next serves a smaller file.
+   */
+  sizes?: string;
+  /** Set on the one cover that is the LCP element for its route. */
+  priority?: boolean;
+};
 
 /**
  * Cover for a project: the screenshot if one exists, otherwise a generated
  * poster (accent gradient + oversized name). Fills its parent; parent sets aspect ratio.
  */
-export function ProjectCover({ project, className = "" }: { project: Project; className?: string }) {
+export function ProjectCover({ project, className = "", sizes = "100vw", priority = false }: Props) {
   if (project.image) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={project.image} alt={`${project.name} screenshot`} className={`h-full w-full object-cover ${className}`} />;
+    return (
+      <Image
+        src={project.image}
+        alt={project.imageAlt ?? `Screenshot of ${project.name}: ${project.oneLiner}`}
+        width={SHOT_W}
+        height={SHOT_H}
+        sizes={sizes}
+        priority={priority}
+        className={`h-full w-full object-cover ${className}`}
+      />
+    );
   }
   return (
     <div

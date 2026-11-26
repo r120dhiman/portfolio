@@ -75,7 +75,7 @@ export function Contact() {
               onClick={onEmail}
               data-cursor-label="Copy"
               aria-label={`Copy email address ${site.email}`}
-              className="group relative inline-block max-w-full break-all pb-2 text-[clamp(1.55rem,6.6vw,7.5rem)] font-medium leading-[1] tracking-[-0.045em] outline-none"
+              className="group relative inline-block max-w-full break-all pb-2 text-[clamp(1.55rem,6.6vw,7.5rem)] font-medium leading-[1] tracking-[-0.045em]"
             >
               {site.email}
               <span

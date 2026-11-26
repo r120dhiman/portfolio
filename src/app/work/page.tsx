@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 export default function WorkIndex() {
   const items = featured.filter((p) => caseStudies.some((c) => c.slug === p.slug));
   return (
-    <section className="gutter pb-24 pt-32 md:pt-40">
+    <ViewTransition enter="page" exit="page" default="none">
+      <section className="gutter pb-24 pt-32 md:pt-40">
       <p className="t-label">Selected work · {items.length} case studies</p>
       <RevealText as="h1" by="chars" trigger="mount" className="t-display mt-6">
         Work
@@ -43,6 +44,7 @@ export default function WorkIndex() {
           </li>
         ))}
       </ul>
-    </section>
+      </section>
+    </ViewTransition>
   );
 }

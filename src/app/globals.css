@@ -38,6 +38,21 @@ body {
   overflow-x: clip;
 }
 
+/* Baseline keyboard focus. Components may override the colour, but nothing should be
+   focusable with no visible indicator — several links previously had none at all, and one
+   used a 3% background tint (~1.04:1, failing 2.4.11). `:focus-visible` keeps mouse clicks
+   ring-free. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Inside the blend-mode header the accent would be inverted; use currentColor there. */
+.mix-blend-difference :focus-visible {
+  outline-color: currentColor;
+}
+
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);
@@ -115,6 +130,20 @@ html.lenis body {
 }
 
 /* ---------- Page transitions (React <ViewTransition>) ---------- */
+/* The snapshot overlay sits above the page for the whole transition; without this it
+   swallows every click for ~900ms after each navigation. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* The fixed chrome (nav, scroll rail, viewfinder, cursor) lives outside the transitioned
+   page, so it would otherwise ride the default root crossfade and double-expose. Naming the
+   header gives it its own group, and killing that group's animation holds it still. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
 ::view-transition-old(.page) {
   animation: 600ms var(--ease-in-out) both page-out;
 }
@@ -141,6 +170,15 @@ html.lenis body {
     transition-duration: 0.001ms !important;
   }
   .grain { display: none; }
+
+  /* `*` above cannot reach the view-transition pseudo tree — these need naming directly.
+     Directional/positional route animation is the highest motion-sensitivity category. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+  }
 }
 
 /* ---------- Tech layer ---------- */

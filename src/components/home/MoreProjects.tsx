@@ -152,7 +152,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
   );
 
   const cls =
-    "group relative flex flex-col gap-3 border-b border-line py-6 outline-none md:grid md:grid-cols-12 md:items-center md:gap-6 md:py-7 focus-visible:bg-fg/[0.03]";
+    "group relative flex flex-col gap-3 border-b border-line py-6 md:grid md:grid-cols-12 md:items-center md:gap-6 md:py-7";
 
   return p.live ? (
     <a

@@ -1,6 +1,8 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
+import { CaseStudyJsonLd } from "@/components/seo/JsonLd";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
 import { featured } from "@/content/projects";
 
@@ -37,5 +39,10 @@ export default async function CaseStudyPage({ params }: Props) {
   const { slug } = await params;
   const data = resolve(slug);
   if (!data) notFound();
-  return <CaseStudyView {...data} />;
+  return (
+    <ViewTransition enter="page" exit="page" default="none">
+      <CaseStudyJsonLd slug={slug} />
+      <CaseStudyView {...data} />
+    </ViewTransition>
+  );
 }

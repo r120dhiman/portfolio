@@ -348,7 +348,7 @@ export function FeaturedWheel() {
               data-cursor="view"
               data-cursor-label="View case"
               aria-label={`${p.name} — case study`}
-              className="group relative grid h-full grid-cols-12 gap-[2vw] p-[1.4vw] outline-none"
+              className="group relative grid h-full grid-cols-12 gap-[2vw] p-[1.4vw] "
               style={P3}
             >
               {/* Base plate */}

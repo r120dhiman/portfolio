@@ -1,9 +1,11 @@
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { Magnetic } from "@/components/fx/Magnetic";
 
 export default function NotFound() {
   return (
-    <section className="gutter flex min-h-[85dvh] flex-col justify-center pb-16 pt-32">
+    <ViewTransition enter="page" exit="page" default="none">
+      <section className="gutter flex min-h-[85dvh] flex-col justify-center pb-16 pt-32">
       <p className="t-label">
         <span className="text-accent">GET</span> {"{this route}"} → <span className="text-accent">404</span> · Not Found
       </p>
@@ -29,6 +31,7 @@ status       → parked. redirecting you home instead.`}
           </Link>
         </Magnetic>
       </div>
-    </section>
+      </section>
+    </ViewTransition>
   );
 }
