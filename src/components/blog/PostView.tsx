@@ -49,7 +49,7 @@ function Block({ block, project }: { block: PostBlock; project: LabProject }) {
         </pre>
       );
     case "diagram":
-      return <ArchitectureDiagram diagram={project.post.diagram} title={project.name} />;
+      return project.post.diagram ? <ArchitectureDiagram diagram={project.post.diagram} title={project.name} /> : null;
   }
 }
 

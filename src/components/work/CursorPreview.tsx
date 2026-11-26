@@ -86,7 +86,7 @@ export function CursorPreview({ projects, active }: { projects: Project[]; activ
               )}
             >
               <div className={clsx("h-full w-full transition-transform duration-1000 ease-[var(--ease-out)]", on ? "scale-100" : "scale-125")}>
-                <ProjectCover project={p} />
+                <ProjectCover project={p} sizes="360px" />
               </div>
             </div>
           );

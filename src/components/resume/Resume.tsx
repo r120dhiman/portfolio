@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import clsx from "clsx";
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import {
   education,
   experienceEntries,
@@ -19,8 +19,6 @@ import {
   type ResumeEntry,
   type Variant,
 } from "./data";
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 /** One-page LaTeX resumes, compiled by `npm run resume` (resume/*.tex → public/cv/). */
 const pdfFor: Record<Variant, string> = {
@@ -38,7 +36,54 @@ export function ResumeFromParams() {
 
 export function Resume({ initial = "sde" }: { initial?: Variant }) {
   const [variant, setVariant] = useState<Variant>(initial);
-  const reduce = useReducedMotion();
+  const root = useRef<HTMLDivElement>(null);
+  const tabBar = useRef<HTMLDivElement>(null);
+  const underline = useRef<HTMLSpanElement>(null);
+  const mounted = useRef(false);
+
+  /**
+   * Move the accent underline to the selected variant, and crossfade the parts of the sheet
+   * that actually change. Replaces framer-motion's `layoutId` + `AnimatePresence` with the
+   * GSAP already used everywhere else on the site.
+   */
+  useGSAP(
+    () => {
+      const bar = tabBar.current;
+      const line = underline.current;
+
+      const place = (animate: boolean) => {
+        if (!bar || !line) return;
+        const btn = bar.querySelector<HTMLElement>('[data-variant-btn][aria-pressed="true"]');
+        if (!btn) return;
+        const b = bar.getBoundingClientRect();
+        const r = btn.getBoundingClientRect();
+        const to = { x: r.left - b.left, y: r.bottom - b.top - 2, width: r.width };
+        if (animate) gsap.to(line, { ...to, autoAlpha: 1, duration: 0.45, ease: "power3.out" });
+        else gsap.set(line, { ...to, autoAlpha: 1 });
+      };
+
+      place(mounted.current && !prefersReducedMotion());
+
+      // Measured rects go stale on reflow — re-place without animating when the bar resizes.
+      const ro = bar ? new ResizeObserver(() => place(false)) : null;
+      if (bar && ro) ro.observe(bar);
+
+      if (mounted.current && !prefersReducedMotion()) {
+        const changing = root.current?.querySelectorAll(".rs-headline, .rs-summary, .rs-bullets");
+        if (changing?.length) {
+          gsap.fromTo(
+            changing,
+            { autoAlpha: 0, y: 6 },
+            { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.015, overwrite: true }
+          );
+        }
+      }
+      mounted.current = true;
+
+      return () => ro?.disconnect();
+    },
+    { dependencies: [variant], scope: root }
+  );
 
   const choose = (v: Variant) => {
     setVariant(v);
@@ -54,22 +99,32 @@ export function Resume({ initial = "sde" }: { initial?: Variant }) {
   const o = order[variant];
 
   return (
-    <div className="resume-root">
+    <div ref={root} className="resume-root">
       <PrintStyles />
 
       {/* Controls (screen only) */}
       <div className="mb-10 flex flex-col gap-6 print:hidden md:flex-row md:items-end md:justify-between">
         <div>
           <p className="t-label mb-3">Tailored for</p>
-          <LayoutGroup id="resume-variant">
-            <div role="tablist" aria-label="Resume variant" className="flex flex-wrap gap-x-7 gap-y-2">
+          <div
+            ref={tabBar}
+            role="group"
+            aria-label="Resume variant"
+            className="relative flex flex-wrap gap-x-7 gap-y-2"
+          >
+            <span
+              ref={underline}
+              aria-hidden
+              className="pointer-events-none absolute left-0 top-0 h-[2px] bg-accent opacity-0"
+            />
               {variants.map((v) => {
                 const on = v.id === variant;
                 return (
                   <button
                     key={v.id}
-                    role="tab"
-                    aria-selected={on}
+                    type="button"
+                    data-variant-btn
+                    aria-pressed={on}
                     onClick={() => choose(v.id)}
                     className={clsx(
                       "relative pb-2 text-[clamp(1.25rem,2.4vw,1.9rem)] font-medium tracking-[-0.03em] transition-colors duration-300",
@@ -77,18 +132,10 @@ export function Resume({ initial = "sde" }: { initial?: Variant }) {
                     )}
                   >
                     {v.label}
-                    {on && (
-                      <motion.span
-                        layoutId="resume-underline"
-                        className="absolute inset-x-0 -bottom-px h-[2px] bg-accent"
-                        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }}
-                      />
-                    )}
                   </button>
                 );
               })}
-            </div>
-          </LayoutGroup>
+          </div>
         </div>
         <a
           href={pdfFor[variant]}
@@ -108,18 +155,9 @@ export function Resume({ initial = "sde" }: { initial?: Variant }) {
               {header.name}
               <span className="text-accent">.</span>
             </h1>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={variant}
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduce ? undefined : { opacity: 0, y: -8 }}
-                transition={{ duration: 0.35, ease }}
-                className="rs-headline t-serif mt-3 text-[clamp(1.2rem,2.2vw,1.7rem)] text-fg/85"
-              >
-                {header.headline[variant]}
-              </motion.p>
-            </AnimatePresence>
+            <p className="rs-headline t-serif mt-3 text-[clamp(1.2rem,2.2vw,1.7rem)] text-fg/85">
+              {header.headline[variant]}
+            </p>
           </div>
           <ul className="rs-contact space-y-1 font-mono text-[0.78rem] text-muted md:text-right">
             {header.contact.map((c) => (
@@ -132,38 +170,25 @@ export function Resume({ initial = "sde" }: { initial?: Variant }) {
           </ul>
         </header>
 
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.p
-            key={variant}
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="rs-summary mt-8 max-w-[75ch] text-[1.02rem] leading-[1.7] text-fg/85"
-          >
-            {summary[variant]}
-          </motion.p>
-        </AnimatePresence>
+        <p className="rs-summary mt-8 max-w-[75ch] text-[1.02rem] leading-[1.7] text-fg/85">{summary[variant]}</p>
 
-        <LayoutGroup id="resume-body">
           <Block title="Internships">
             {o.experience.map((id) => (
-              <Entry key={id} entry={experienceEntries[id]} variant={variant} reduce={!!reduce} />
+              <Entry key={id} entry={experienceEntries[id]} variant={variant} />
             ))}
           </Block>
 
           <Block title="Projects">
             {o.projects.map((id) => (
-              <Entry key={id} entry={projectEntries[id]} variant={variant} reduce={!!reduce} compact />
+              <Entry key={id} entry={projectEntries[id]} variant={variant} compact />
             ))}
           </Block>
 
           <Block title="Positions of responsibility">
             {o.leadership.map((id) => (
-              <Entry key={id} entry={leadershipEntries[id]} variant={variant} reduce={!!reduce} compact />
+              <Entry key={id} entry={leadershipEntries[id]} variant={variant} compact />
             ))}
           </Block>
-        </LayoutGroup>
 
         <div className="rs-foot mt-10 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <section>
@@ -207,9 +232,9 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-function Entry({ entry, variant, reduce, compact }: { entry: ResumeEntry; variant: Variant; reduce: boolean; compact?: boolean }) {
+function Entry({ entry, variant, compact }: { entry: ResumeEntry; variant: Variant; compact?: boolean }) {
   return (
-    <motion.li layout={reduce ? false : "position"} transition={{ duration: 0.6, ease }} className="rs-entry">
+    <li className="rs-entry">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 className="text-[1.15rem] font-medium tracking-[-0.015em]">
           {entry.org}
@@ -223,24 +248,15 @@ function Entry({ entry, variant, reduce, compact }: { entry: ResumeEntry; varian
         <span className="rs-meta font-mono text-[0.75rem] text-muted">{entry.period}</span>
       </div>
       {entry.note && <p className="rs-note mt-1 font-mono text-[0.72rem] text-muted">{entry.note}</p>}
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.ul
-          key={variant}
-          initial={reduce ? false : { opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={reduce ? undefined : { opacity: 0, y: -4 }}
-          transition={{ duration: 0.3, ease }}
-          className={clsx("rs-bullets mt-3 space-y-1.5", compact && "mt-2")}
-        >
+        <ul className={clsx("rs-bullets mt-3 space-y-1.5", compact && "mt-2")}>
           {entry.bullets[variant].map((b) => (
             <li key={b} className="relative max-w-[90ch] pl-4 text-[0.97rem] leading-[1.6] text-fg/80">
               <span className="absolute left-0 top-[0.7em] h-1 w-1 rounded-full bg-accent" aria-hidden />
               {b}
             </li>
           ))}
-        </motion.ul>
-      </AnimatePresence>
-    </motion.li>
+        </ul>
+    </li>
   );
 }
 

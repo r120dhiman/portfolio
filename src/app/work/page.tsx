@@ -28,7 +28,7 @@ export default function WorkIndex() {
               <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line">
                   <div className="h-full w-full transition-transform duration-700 ease-[var(--ease-out)] group-hover:scale-[1.03]">
-                    <ProjectCover project={p} />
+                    <ProjectCover project={p} sizes="(min-width: 768px) 50vw, 100vw" />
                   </div>
                 </div>
               </ViewTransition>

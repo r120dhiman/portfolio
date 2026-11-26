@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import clsx from "clsx";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { RevealText } from "@/components/fx/RevealText";
 import { Magnetic } from "@/components/fx/Magnetic";
@@ -18,7 +18,6 @@ export function Contact() {
   const ref = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | undefined>(undefined);
-  const reduce = useReducedMotion();
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
@@ -116,22 +115,18 @@ export function Contact() {
         </ul>
       </div>
 
+      {/* Always mounted so the aria-live region is stable; animated with a plain transition.
+          Reduced motion is handled by the global rule in globals.css, which zeroes it. */}
       <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-8 z-[70] flex justify-center">
-        <AnimatePresence>
-          {copied ? (
-            <motion.div
-              key="toast"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-3 rounded-full bg-fg px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] text-bg"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-              Copied — {site.email}
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+        <div
+          className={clsx(
+            "flex items-center gap-3 rounded-full bg-fg px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] text-bg transition-all duration-500 ease-[var(--ease-out)]",
+            copied ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-5 scale-[0.96] opacity-0"
+          )}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+          {copied ? `Copied — ${site.email}` : ""}
+        </div>
       </div>
     </section>
   );

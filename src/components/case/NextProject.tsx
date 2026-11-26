@@ -78,7 +78,7 @@ export function NextProject({ project }: { project: Project }) {
         className="pointer-events-none absolute left-0 top-0 z-10 hidden aspect-[16/10] w-[min(30vw,420px)] overflow-hidden rounded-xl opacity-0 shadow-2xl md:block"
         style={{ translate: "-50% -50%" }}
       >
-        <ProjectCover project={project} />
+        <ProjectCover project={project} sizes="420px" />
       </div>
     </Link>
   );

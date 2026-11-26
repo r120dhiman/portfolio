@@ -39,7 +39,10 @@ export function FeaturedWork() {
         </div>
       </header>
 
-      {cinematic ? <FeaturedWheel /> : <FeaturedStack />}
+      {/* useMediaQuery cannot know the viewport during SSR, so desktop paints the stack and
+          then swaps to the pinned wheel. Reserving the wheel height keeps that swap from
+          shifting the page. */}
+      <div className="lg:min-h-svh">{cinematic ? <FeaturedWheel /> : <FeaturedStack />}</div>
     </section>
   );
 }

@@ -44,6 +44,9 @@ export function Hero() {
       gsap.set(role.lines, { yPercent: 110 });
       gsap.set(q("[data-fade]"), { y: 24, opacity: 0 });
 
+      // Start pose is written inline now, so revealing is safe - no flash of final layout.
+      document.documentElement.removeAttribute("data-anim");
+
       const intro = gsap.timeline({
         paused: true,
         defaults: { ease: "expo.out" },

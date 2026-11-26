@@ -54,6 +54,7 @@ const PAGES = [
   "/blog",
   "/blog/on-device-replies",
   "/blog/kernel-study",
+  "/blog/outreach-quality",
   "/resume",
 ];
 

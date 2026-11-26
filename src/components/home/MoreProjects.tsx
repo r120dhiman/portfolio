@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { more, type Project, type RoleTag } from "@/content/projects";
 import { RevealText } from "@/components/fx/RevealText";
-import { ScrollTrigger } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { CursorPreview } from "@/components/work/CursorPreview";
 import { hostOf, indexLabel, StackLine, TeamBadge, yearOf } from "@/components/work/ProjectMeta";
 import { useMediaQuery } from "@/components/work/useMediaQuery";
 
 type Filter = "All" | RoleTag;
 const FILTERS: Filter[] = ["All", "AI", "Systems", "Shipped", "Customer"];
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const countFor = (f: Filter) => (f === "All" ? more.length : more.filter((p) => p.tags.includes(f)).length);
 
@@ -22,85 +20,138 @@ export function MoreProjects() {
   const canPreview = useMediaQuery("(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
   const list = filter === "All" ? more : more.filter((p) => p.tags.includes(filter));
 
+  const root = useRef<HTMLElement>(null);
+  const pill = useRef<HTMLSpanElement>(null);
+  const filterBar = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const mounted = useRef(false);
+
   // The list height changes with the filter — let later ScrollTriggers re-measure.
   useEffect(() => {
     const t = setTimeout(() => ScrollTrigger.refresh(), 800);
     return () => clearTimeout(t);
   }, [filter]);
 
+  /**
+   * Slide the active-filter pill to the selected button. This replaces framer-motion's
+   * `layoutId`: we measure the button and move one shared element, which is the same idea
+   * with none of the runtime. Offsets are relative to the bar, so wrapping rows work.
+   */
+  useGSAP(
+    () => {
+      const bar = filterBar.current;
+      const el = pill.current;
+      if (!bar || !el) return;
+
+      const place = (animate: boolean) => {
+        const btn = bar.querySelector<HTMLElement>('[data-filter-btn][aria-pressed="true"]');
+        if (!btn) return;
+        const b = bar.getBoundingClientRect();
+        const r = btn.getBoundingClientRect();
+        const to = { x: r.left - b.left, y: r.top - b.top, width: r.width, height: r.height };
+        if (animate) gsap.to(el, { ...to, autoAlpha: 1, duration: 0.5, ease: "power3.out" });
+        else gsap.set(el, { ...to, autoAlpha: 1 });
+      };
+
+      place(mounted.current && !prefersReducedMotion());
+
+      // Positions come from measured rects, so any reflow (resize, or the bar wrapping to a
+      // second row) strands the pill unless it is re-measured. Snap, never tween, on reflow.
+      const ro = new ResizeObserver(() => place(false));
+      ro.observe(bar);
+      return () => ro.disconnect();
+    },
+    { dependencies: [filter], scope: root }
+  );
+
+  // Enter animation for the rows, but only when the filter actually changes.
+  useGSAP(
+    () => {
+      if (!mounted.current) {
+        mounted.current = true;
+        return;
+      }
+      if (prefersReducedMotion()) return;
+      const items = listRef.current?.querySelectorAll("[data-row-item]");
+      if (!items?.length) return;
+      gsap.fromTo(
+        items,
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.04, overwrite: true }
+      );
+    },
+    { dependencies: [filter], scope: root }
+  );
+
   return (
-    <MotionConfig reducedMotion="user">
-      <section id="projects" aria-label="More projects" className="gutter relative py-[clamp(6rem,14vh,10rem)]">
-        <header className="mb-10 flex flex-col gap-8 md:mb-14 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="t-label mb-5">Index — more projects</p>
-            <RevealText as="h2" className="t-h1">
-              Other <span className="t-serif">things</span> I&apos;ve built.
-            </RevealText>
-          </div>
-
-          <div role="group" aria-label="Filter projects by role" className="-mx-1 flex flex-wrap gap-1">
-            {FILTERS.map((f) => {
-              const on = f === filter;
-              return (
-                <button
-                  key={f}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => setFilter(f)}
-                  className={clsx(
-                    "relative rounded-full px-3.5 py-2 font-mono text-[0.72rem] uppercase tracking-[0.08em] outline-none transition-colors duration-300 focus-visible:ring-1 focus-visible:ring-accent",
-                    on ? "text-[#0b0b0a]" : "text-muted hover:text-fg"
-                  )}
-                >
-                  {on && (
-                    <motion.span
-                      layoutId="more-projects-filter-pill"
-                      className="absolute inset-0 rounded-full bg-fg"
-                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                    />
-                  )}
-                  <span className="relative">
-                    {f}
-                    <sup className="ml-1 text-[0.6rem] opacity-60">{countFor(f)}</sup>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </header>
-
-        <div className="hidden grid-cols-12 gap-6 border-b border-line pb-3 md:grid" aria-hidden>
-          <span className="t-label col-span-1">No.</span>
-          <span className="t-label col-span-3">Project</span>
-          <span className="t-label col-span-4">What it is</span>
-          <span className="t-label col-span-2">Stack</span>
-          <span className="t-label col-span-1">Year</span>
-          <span className="t-label col-span-1 text-right">Live</span>
+    <section ref={root} id="projects" aria-label="More projects" className="gutter relative py-[clamp(6rem,14vh,10rem)]">
+      <header className="mb-10 flex flex-col gap-8 md:mb-14 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="t-label mb-5">Index — more projects</p>
+          <RevealText as="h2" className="t-h1">
+            Other <span className="t-serif">things</span> I&apos;ve built.
+          </RevealText>
         </div>
 
-        <motion.ul layout className="group/list relative" onPointerLeave={() => setActive(null)}>
-          <AnimatePresence mode="popLayout" initial={false}>
-            {list.map((p) => (
-              <motion.li
-                key={p.slug}
-                layout
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12, transition: { duration: 0.25 } }}
-                transition={{ duration: 0.7, ease }}
-                onPointerEnter={() => setActive(p.slug)}
-                className="transition-opacity duration-500 md:group-hover/list:opacity-35 md:hover:!opacity-100"
+        <div
+          ref={filterBar}
+          role="group"
+          aria-label="Filter projects by role"
+          className="relative -mx-1 flex flex-wrap gap-1"
+        >
+          <span
+            ref={pill}
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 rounded-full bg-fg opacity-0"
+          />
+          {FILTERS.map((f) => {
+            const on = f === filter;
+            return (
+              <button
+                key={f}
+                type="button"
+                data-filter-btn
+                aria-pressed={on}
+                onClick={() => setFilter(f)}
+                className={clsx(
+                  "relative rounded-full px-3.5 py-2 font-mono text-[0.72rem] uppercase tracking-[0.08em] transition-colors duration-300 focus-visible:ring-1 focus-visible:ring-accent",
+                  on ? "text-[#0b0b0a]" : "text-muted hover:text-fg"
+                )}
               >
-                <Row project={p} index={more.indexOf(p)} />
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </motion.ul>
+                <span className="relative">
+                  {f}
+                  <sup className="ml-1 text-[0.6rem] opacity-60">{countFor(f)}</sup>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </header>
 
-        {canPreview && <CursorPreview projects={more} active={active && list.some((p) => p.slug === active) ? active : null} />}
-      </section>
-    </MotionConfig>
+      <div className="hidden grid-cols-12 gap-6 border-b border-line pb-3 md:grid" aria-hidden>
+        <span className="t-label col-span-1">No.</span>
+        <span className="t-label col-span-3">Project</span>
+        <span className="t-label col-span-4">What it is</span>
+        <span className="t-label col-span-2">Stack</span>
+        <span className="t-label col-span-1">Year</span>
+        <span className="t-label col-span-1 text-right">Live</span>
+      </div>
+
+      <ul ref={listRef} className="group/list relative" onPointerLeave={() => setActive(null)}>
+        {list.map((p) => (
+          <li
+            key={p.slug}
+            data-row-item
+            onPointerEnter={() => setActive(p.slug)}
+            className="transition-opacity duration-500 md:group-hover/list:opacity-35 md:hover:!opacity-100"
+          >
+            <Row project={p} index={more.indexOf(p)} />
+          </li>
+        ))}
+      </ul>
+
+      {canPreview && <CursorPreview projects={more} active={active && list.some((p) => p.slug === active) ? active : null} />}
+    </section>
   );
 }
 

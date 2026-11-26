@@ -129,6 +129,16 @@ html.lenis body {
   100% { transform: translate(0, 0); }
 }
 
+/* Hold the hero's animated parts until GSAP has written their start pose. Without this the
+   server-rendered markup paints at its final position and then jumps back to animate - most
+   visible on repeat visits, where the boot overlay is skipped, and it is the LCP element.
+   The attribute is set pre-paint by the Preloader's inline script and cleared by Hero. */
+html[data-anim="js"] #top [data-name-line],
+html[data-anim="js"] #top [data-role],
+html[data-anim="js"] #top [data-fade] {
+  visibility: hidden;
+}
+
 /* ---------- Page transitions (React <ViewTransition>) ---------- */
 /* The snapshot overlay sits above the page for the whole transition; without this it
    swallows every click for ~900ms after each navigation. */

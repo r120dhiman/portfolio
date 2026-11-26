@@ -391,7 +391,7 @@ export function FeaturedWheel() {
                   <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
                     <div data-cover-dom className="relative h-full w-full overflow-hidden rounded-[3px]">
                       <div className="h-full w-full transition-transform duration-[1.2s] ease-[var(--ease-out)] group-hover:scale-[1.04]">
-                        <ProjectCover project={p} />
+                        <ProjectCover project={p} sizes="60vw" />
                       </div>
                       <span
                         aria-hidden

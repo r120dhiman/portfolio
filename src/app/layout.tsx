@@ -36,7 +36,12 @@ export const viewport: Viewport = { themeColor: "#0b0b0a" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}>
+    <html
+      lang="en"
+      // The Preloader's pre-paint script sets data-anim here before hydration.
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+    >
       <body className="min-h-dvh">
         <SiteJsonLd />
         <SmoothScroll>

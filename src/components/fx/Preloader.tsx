@@ -54,7 +54,7 @@ const LINES: { cmd: string; tag?: string }[] = [
 ];
 
 /** Runs during HTML parsing so repeat visits / reduced motion never paint the overlay. */
-const SKIP_SCRIPT = `(function(){try{var b=document.getElementById("rk-boot");if(!b)return;var s=false;try{s=sessionStorage.getItem("${SEEN_KEY}")==="1"}catch(e){}if(s||matchMedia("(prefers-reduced-motion: reduce)").matches){b.style.display="none"}}catch(e){}})()`;
+const SKIP_SCRIPT = `(function(){try{var r=matchMedia("(prefers-reduced-motion: reduce)").matches;if(!r){var h=document.documentElement;h.setAttribute("data-anim","js");setTimeout(function(){h.removeAttribute("data-anim")},4000);}var b=document.getElementById("rk-boot");if(!b)return;var s=false;try{s=sessionStorage.getItem("${SEEN_KEY}")==="1"}catch(e){}if(s||r){b.style.display="none"}}catch(e){}})()`;
 
 export function Preloader() {
   const root = useRef<HTMLDivElement>(null);

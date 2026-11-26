@@ -43,8 +43,11 @@ export type LabProject = {
     date: string;
     /** Verified facts only. Empty is fine and honest. */
     facts: { label: string; value: string }[];
-    /** Hand-placed system diagram, drawn in on scroll. */
-    diagram: Diagram;
+    /**
+     * Hand-placed system diagram, drawn in on scroll. Optional on purpose — some work is
+     * too early, or too commercially sensitive, to publish an architecture for.
+     */
+    diagram?: Diagram;
     blocks: PostBlock[];
   };
 };
@@ -242,6 +245,101 @@ export const labProjects: LabProject[] = [
             "Get a trivial module to build, load and unload cleanly — the loop before the content",
             "Pick one piece of kernel state worth exposing and write that honestly",
             "Write up what I got wrong, which is the part these posts are actually for",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    slug: "outreach-quality",
+    name: "Outreach worth replying to",
+    oneLiner:
+      "Cold B2B outreach is mostly noise. An ideation-stage look at whether generated messages can be worth the recipient's time, rather than just cheaper to send.",
+    stage: "Ideation",
+    status: "Ideation · defining the quality bar before the build",
+    started: "Nov 2026",
+    /*
+     * Intentionally vague. The working document for this covers architecture, model routing,
+     * the data pipeline and the commercial model; none of that is public while it is early,
+     * and this page is the problem statement only. Do not add a diagram or a stack list here.
+     */
+    stack: ["Applied LLMs", "Evaluation", "Product"],
+    accent: "#4DA3FF",
+    collab: [
+      "Anyone who has sat on the receiving end of B2B outreach and can say what made them reply",
+      "How you measure 'good' here without optimising straight into spam",
+      "Where the honest line sits between helping someone write and writing for them",
+    ],
+    post: {
+      title: "Can outreach that's generated still deserve a reply?",
+      date: "2026-11-25",
+      facts: [],
+      blocks: [
+        {
+          kind: "p",
+          text: "Almost all cold outreach is bad. Not because a machine wrote it \u2014 plenty of it isn't \u2014 but because it was written for the sender. It exists to hit a send quota, and the person on the other end can tell within half a sentence.",
+        },
+        {
+          kind: "p",
+          text: "The obvious thing to do with a language model here is make the bad version cheaper: generate more of it, faster, to more people. That works as a business for roughly as long as it takes inboxes to adapt, and it makes the problem worse for everyone \u2014 including the next person who actually has something worth saying.",
+        },
+        {
+          kind: "p",
+          text: "So the question I keep circling is narrower than \u201ccan AI write sales emails\u201d, which is already answered and mostly answered badly. It's whether a generated message can clear the bar of being worth the recipient's attention.",
+        },
+        { kind: "h", text: "Passing for human is the wrong target" },
+        {
+          kind: "p",
+          text: "Most tools in this space optimise for a message that reads like a person wrote it. That sounds like the right goal and isn't. A message can be perfectly human-sounding and still be worthless \u2014 most of the ones I delete are. Fluency was never the bottleneck.",
+        },
+        {
+          kind: "p",
+          text: "What makes me reply to a stranger is that they understood something specific about my situation and said something I couldn't have predicted from the subject line. That's a much harder target than fluency, and it fails in a visible way: a message that tries to sound personal while clearly knowing nothing about you is worse than an honest generic one. The uncanny version costs you more trust than the boring version.",
+        },
+        {
+          kind: "p",
+          text: "Which means the interesting constraint isn't how well the thing writes. It's how well it knows when it has nothing to say.",
+        },
+        { kind: "h", text: "The measurement trap" },
+        {
+          kind: "p",
+          text: "This is the part that makes it a real engineering problem rather than a prompt. Say you build it and want to know if it's any good. The natural metric is reply rate. Optimise for reply rate and you will get replies \u2014 by being more misleading. Vague urgency, implied prior contact, a subject line that reads like a reply to something. All of it lifts the number. All of it is the behaviour I'd be building the tool to avoid.",
+        },
+        {
+          kind: "p",
+          text: "The same trap sits under every downstream metric. Meetings booked rewards pressure. Open rate rewards bait. Any single number you optimise hard enough turns into the thing people already hate about their inbox, and the system gets there faster than you'll notice, because it's optimising and you're reviewing samples.",
+        },
+        {
+          kind: "p",
+          text: "So the measurement has to carry a cost for the failure mode, not just a reward for the win. Something closer to: of the people who replied, how many were glad they did? That's harder to collect and much harder to game, and I think any honest version of this has to answer it before it writes a single message at volume.",
+        },
+        { kind: "h", text: "What I think is true so far" },
+        {
+          kind: "list",
+          items: [
+            "Volume is the problem, not the solution \u2014 a tool that makes it trivial to contact ten thousand people is solving for the wrong party",
+            "Refusing is a feature: if there's nothing specific to say to someone, the correct output is no message at all",
+            "The quality bar has to be set by the recipient, not the sender, or the metric drifts within weeks",
+            "Anything built on people's data needs the consent question settled first, not retrofitted once it works",
+          ],
+        },
+        { kind: "h", text: "Why this one and not something easier" },
+        {
+          kind: "p",
+          text: "I've built enough things that talk to real users to know the difference between a demo that impresses and a system that holds up once it's running unattended. This sits squarely in that gap. The demo is easy \u2014 anyone can show a model writing a convincing email. The system is hard, because the thing that makes it valuable and the thing that makes it harmful are the same capability pointed in different directions.",
+        },
+        {
+          kind: "p",
+          text: "That's also why it's filed under ideation rather than in progress. I don't want to build the volume version by accident, which is what happens when you start with the generation and figure out the guardrails later. Starting from the constraint is slower and I think it's the only way this ends up being something I'd want to have made.",
+        },
+        { kind: "h", text: "What's next" },
+        {
+          kind: "list",
+          items: [
+            "Collect real examples of outreach that earned a reply, and work out what they actually share",
+            "Define a quality signal that gets worse, not better, when the message overreaches",
+            "Write down what the tool refuses to do before deciding what it does",
+            "Settle provenance and consent for anything it learns from \u2014 that answer gates the rest",
           ],
         },
       ],

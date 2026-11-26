@@ -86,7 +86,7 @@ export function CaseHero({ project, study }: { project: Project; study: CaseStud
 
       <ViewTransition name={`cover-${project.slug}`} share="morph" default="none">
         <div className="relative mt-14 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line md:aspect-[16/9]">
-          <ProjectCover project={project} />
+          <ProjectCover project={project} sizes="100vw" priority />
         </div>
       </ViewTransition>
     </header>
